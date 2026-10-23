@@ -1,0 +1,273 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Sensory MCQs 2</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: one centered column. Loader card first, quiz and results cards swap in place. Dark look kept from the user's original page. */
+:root{
+  color-scheme:dark;
+  --bg:#0b1020;--bg-glow:#172746;
+  --panel:rgba(18,26,45,.96);--panel-2:#151f34;--panel-3:#17233a;
+  --line:#2b3955;--line-2:#34425e;
+  --text:#edf3ff;--muted:#aab8d0;--soft:#e1e8f3;
+  --accent:#7cafff;--accent-2:#b7d3ff;--accent-fill:#6fa5ff;--accent-ink:#08152b;
+  --good:#37c991;--good-bg:#10382f;--good-line:#237d61;--good-ink:#05251b;
+  --bad:#ff7c87;--bad-bg:#3c202b;--bad-line:#85434f;--bad-ink:#2c0c12;
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;
+  background:radial-gradient(ellipse at top,var(--bg-glow) 0%,var(--bg) 55%) var(--bg);
+  color:var(--text);font:16px/1.5 var(--font);
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:24px 48px;
+}
+main{width:min(850px,100%);margin:0 auto}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px 16px;margin:4px 0 20px;flex-wrap:wrap}
+h1{font-size:clamp(1.25rem,3vw,1.8rem);margin:0;letter-spacing:-.03em;text-wrap:balance}
+h2{text-wrap:balance}
+.sub{color:var(--muted);font-size:.92rem;margin-top:4px}
+.head-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pill{border:1px solid var(--line);background:#121d32;border-radius:999px;padding:7px 12px;color:var(--accent-2);white-space:nowrap;font-size:.88rem}
+.progress-wrap{height:7px;background:#202c43;border-radius:99px;overflow:hidden;margin:0 0 20px}
+#progress{height:100%;width:0;background:linear-gradient(90deg,#5f9bff,#75d6c2);transition:width .2s}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:clamp(18px,4vw,30px);box-shadow:0 18px 50px #0002}
+.meta{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;color:var(--muted);font-size:.9rem;flex-wrap:wrap}
+#question{font-size:clamp(1.15rem,3vw,1.48rem);font-weight:650;line-height:1.4;margin:0 0 22px;white-space:pre-wrap;overflow-wrap:anywhere}
+.options{display:grid;gap:11px}
+.option{width:100%;min-width:0;display:flex;align-items:flex-start;gap:13px;text-align:left;padding:14px 15px;border:1px solid var(--line-2);border-radius:13px;background:var(--panel-2);color:var(--text);font:inherit;cursor:pointer;transition:border-color .15s,background .15s,transform .1s}
+.option>span:last-child{min-width:0;overflow-wrap:anywhere}
+.option:hover:not(:disabled){border-color:var(--accent);background:#1a2944}
+.option:active:not(:disabled){transform:scale(.995)}
+.letter{flex:0 0 29px;height:29px;border:1px solid #465775;border-radius:8px;display:grid;place-items:center;color:var(--accent-2);font-weight:750;font-size:.9rem}
+.option.correct{background:var(--good-bg);border-color:var(--good)}
+.option.correct .letter{background:var(--good);border-color:var(--good);color:var(--good-ink)}
+.option.wrong{background:var(--bad-bg);border-color:var(--bad)}
+.option.wrong .letter{background:var(--bad);border-color:var(--bad);color:var(--bad-ink)}
+.option:disabled{cursor:default}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#feedback{margin-top:18px;border-radius:12px;padding:13px 15px}
+#feedback.good{background:var(--good-bg);border:1px solid var(--good-line)}
+#feedback.bad{background:var(--bad-bg);border:1px solid var(--bad-line)}
+.feedback-title{font-weight:750;margin-bottom:3px}
+.feedback-detail{color:var(--soft);overflow-wrap:anywhere}
+.controls{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:22px;flex-wrap:wrap}
+.left-controls,.right-controls{display:flex;gap:9px;flex-wrap:wrap}
+button.action{border:1px solid var(--line);background:#1a2740;color:var(--text);border-radius:11px;padding:10px 15px;font:600 .95rem var(--font);cursor:pointer}
+button.action:hover:not(:disabled){border-color:var(--accent)}
+button.action.primary{background:var(--accent-fill);color:var(--accent-ink);border-color:var(--accent-fill)}
+button.action.small{padding:7px 12px;font-size:.85rem}
+button.action:disabled{opacity:.35;cursor:not-allowed}
+.stats{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:.9rem;margin-top:18px;font-variant-numeric:tabular-nums}
+.stats strong{color:var(--text)}
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:20px 0}
+.statbox{padding:14px;background:var(--panel-3);border:1px solid var(--line);border-radius:13px;min-width:0}
+.statbox strong{display:block;font-size:1.5rem;font-variant-numeric:tabular-nums}
+.statbox span{color:var(--muted);font-size:.85rem}
+.review-list{display:grid;gap:8px;margin-top:18px}
+.review-item{padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--panel-2);overflow-wrap:anywhere}
+.review-item .q{font-weight:650;margin-bottom:6px}
+.review-item .yours{color:var(--bad)}
+.review-item .right{color:var(--good)}
+.note{color:var(--muted);font-size:.82rem;text-align:center;margin-top:16px}
+
+/* loader */
+.drop{border:1.5px dashed #465775;border-radius:16px;padding:clamp(20px,5vw,34px);text-align:center;background:var(--panel-2);transition:border-color .15s,background .15s}
+.drop.over{border-color:var(--accent);background:#1a2944}
+.drop p{margin:0 0 14px;color:var(--soft)}
+.drop .hint{color:var(--muted);font-size:.88rem;margin:12px 0 0}
+.or{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:.85rem;margin:20px 0}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+textarea{width:100%;min-height:190px;resize:vertical;background:#0f172a;color:var(--text);border:1px solid var(--line-2);border-radius:12px;padding:12px 14px;font:.86rem/1.55 var(--mono)}
+textarea::placeholder{color:#6f7f9b}
+.format{margin-top:18px;border:1px solid var(--line);border-radius:12px;background:var(--panel-3);padding:12px 14px}
+.format summary{cursor:pointer;color:var(--accent-2);font-weight:600;font-size:.9rem}
+.format pre{margin:10px 0 0;font:.84rem/1.55 var(--mono);color:var(--soft);overflow-x:auto;white-space:pre}
+.format ul{margin:10px 0 0;padding-left:18px;color:var(--muted);font-size:.86rem}
+#loadMsg{margin-top:14px;font-size:.9rem;min-height:1.4em}
+#loadMsg.err{color:var(--bad)}
+#loadMsg.ok{color:var(--good)}
+@media(max-width:520px){
+  body{padding-block:15px 30px}
+  .card{border-radius:15px}
+  .summary-grid{grid-template-columns:1fr 1fr}
+  .pill{font-size:.78rem}
+  .controls{align-items:stretch}
+  .left-controls,.right-controls{width:100%}
+  .controls button{flex:1}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<main>
+<header>
+  <div><h1 id="appTitle">Sensory MCQs 2</h1><div class="sub" id="appSub">Questions 57–112 · answers revealed immediately</div></div>
+  <div class="head-right">
+    <div class="pill" id="topCount"></div>
+  </div>
+</header>
+
+<section class="card" id="quizWrap">
+  <div class="progress-wrap" aria-label="Progress"><div id="progress"></div></div>
+  <div class="meta"><span id="qNumber"></span><span id="answeredCount"></span></div>
+  <h2 id="question"></h2>
+  <div class="options" id="options"></div>
+  <div id="feedback" role="status" aria-live="polite" hidden></div>
+  <div class="controls">
+    <div class="left-controls">
+      <button class="action" id="prevBtn">← Previous</button>
+      <button class="action" id="skipBtn">Skip</button>
+    </div>
+    <div class="right-controls">
+      <button class="action primary" id="nextBtn">Next question →</button>
+      <button class="action primary" id="finishBtn" hidden>Finish</button>
+    </div>
+  </div>
+  <div class="stats"><span>Correct: <strong id="correctStat">0</strong></span><span>Incorrect: <strong id="wrongStat">0</strong></span><span>Unanswered: <strong id="unansweredStat">0</strong></span></div>
+</section>
+
+<section class="card" id="summary" hidden>
+  <h2 style="margin-top:0">Session complete</h2>
+  <p class="sub">Your results are ready. Review missed questions or restart the session.</p>
+  <div class="summary-grid">
+    <div class="statbox"><strong id="scoreValue">0%</strong><span>Score among answered</span></div>
+    <div class="statbox"><strong id="finalCorrect">0</strong><span>Correct</span></div>
+    <div class="statbox"><strong id="finalWrong">0</strong><span>Incorrect</span></div>
+  </div>
+  <div class="controls">
+    <div class="left-controls"><button class="action" id="backBtn">Back to questions</button></div>
+    <div class="right-controls">
+      <button class="action" id="reviewWrongBtn">Review incorrect answers</button>
+      <button class="action primary" id="restartBtn">Restart all questions</button>
+    </div>
+  </div>
+  <div class="review-list" id="reviewList"></div>
+</section>
+
+<div class="note" id="keyNote" hidden>Keyboard shortcuts: A–D or 1–4 to answer · ←/→ to navigate</div>
+</main>
+
+<script>
+var QUESTIONS=[{"number":57,"question":"What is the effect of hypoxia on synaptic transmission?","options":["Enhances transmission","No effect","Inhibits transmission","Causes depolarization"],"answer":"C"},{"number":58,"question":"Which condition inhibits synaptic transmission due to lack of energy supply?","options":["Hyperglycemia","Hypoglycemia","Hypercalcemia","Alkalosis"],"answer":"B"},{"number":59,"question":"What is the effect of caffeine on synaptic transmission?","options":["Facilitation","Inhibition","Hyperpolarization","Block of receptors"],"answer":"A"},{"number":60,"question":"How does caffeine enhance synaptic transmission?","options":["Hyperpolarizes membrane","Blocks Ca²⁺ channels","Depolarizes postsynaptic membrane","Inhibits neurotransmitter release"],"answer":"C"},{"number":61,"question":"Why does strychnine cause convulsions?","options":["Enhances inhibitory transmission","Blocks excitatory receptors","Reduces Ca²⁺ entry","Blocks inhibitory neurotransmitters"],"answer":"D"},{"number":62,"question":"What condition can trigger convulsions due to synaptic hyperexcitability?","options":["Acidosis","Hypoglycemia","Alkalosis","Hypoxia"],"answer":"C"},{"number":63,"question":"What is the effect of anesthetics on synaptic transmission?","options":["Hyperpolarize postsynaptic membrane","Facilitate transmission","Increase EPSPs","Open Na⁺ channels"],"answer":"A"},{"number":64,"question":"Which toxin causes spastic paralysis by blocking inhibitory neurotransmitters?","options":["Tetanus toxin","Botulism toxin","Dopamine toxin","Serotonin toxin"],"answer":"A"},{"number":65,"question":"What is the mechanism of botulism toxin?","options":["Blocks GABA release","Activates receptors","Increases Ca²⁺ entry","Blocks acetylcholine release"],"answer":"D"},{"number":66,"question":"What is the effect of acidosis on synaptic transmission?","options":["Facilitates transmission","No effect","Inhibits transmission","Causes depolarization"],"answer":"C"},{"number":67,"question":"How does botulinum toxin cause paralysis?","options":["Blocks GABA release","Increases Cl⁻ influx","Prevents acetylcholine release","Enhances EPSP formation"],"answer":"C"},{"number":68,"question":"How does tetanus toxin lead to spastic paralysis?","options":["Blocks acetylcholine receptors","Decreases Ca²⁺ entry","Enhances Cl⁻ influx","Prevents inhibitory neurotransmitter release"],"answer":"D"},{"number":69,"question":"A patient with diabetic ketoacidosis becomes comatose; what is the synaptic mechanism?","options":["Increased EPSP","Enhanced Ca²⁺ influx","Inhibition of synaptic transmission due to acidosis","Increased neurotransmitter release"],"answer":"C"},{"number":70,"question":"A toxin causes prolonged depolarization of presynaptic terminal; what is expected?","options":["Decreased Ca²⁺ entry","Increased neurotransmitter release","Synaptic inhibition","Hyperpolarization"],"answer":"B"},{"number":71,"question":"A drug blocks Ca²⁺ channels in presynaptic terminal; what is the effect?","options":["Decreased neurotransmitter release","Increased EPSP","Hyperpolarization of postsynaptic neuron","Increased summation"],"answer":"A"},{"number":72,"question":"What is synaptic plasticity?","options":["Fixed synaptic strength","Neurotransmitter synthesis","Electrical conduction","Ability to change synaptic strength"],"answer":"D"},{"number":73,"question":"How does synaptic plasticity contribute to learning?","options":["Reduces synapse number","Blocks neurotransmission","Alters strength of synaptic connections","Decreases receptor activity"],"answer":"C"},{"number":74,"question":"What characterizes post-tetanic potentiation (PTP)?","options":["Decreased synaptic strength","Increased Ca²⁺ in presynaptic terminal","Removal of receptors","Inhibition of transmission"],"answer":"B"},{"number":75,"question":"What happens during post-tetanic potentiation?","options":["Decreased Ca²⁺ levels","Receptor inactivation","After discharge of neurotransmitter release","Synaptic fatigue"],"answer":"C"},{"number":76,"question":"What is the effect of increased Ca²⁺ in presynaptic terminal?","options":["Increased neurotransmitter release","Decreased neurotransmitter release","Hyperpolarization","Reduced EPSP"],"answer":"A"},{"number":77,"question":"Why does habituation occur?","options":["Increased Ca²⁺ influx","Decreased Ca²⁺ entry into presynaptic terminal","Increased receptor sensitivity","Increased neurotransmitter release"],"answer":"B"},{"number":78,"question":"What occurs during habituation?","options":["Increased neurotransmitter release","Enhanced EPSPs","Decreased response to repeated harmless stimuli","Increased Ca²⁺ entry"],"answer":"C"},{"number":79,"question":"What is sensitization?","options":["Decreased response to repeated non important stimuli","Synaptic fatigue due to repeated noxious stimuli","Loss of memory due to repeated low intensity low frequency stimuli","Increased response to a habituated stimulus after pairing with a noxious stimulus"],"answer":"D"},{"number":80,"question":"What neurotransmitter is involved in sensitization?","options":["Serotonin","Acetylcholine","Dopamine","Glycine"],"answer":"A"},{"number":81,"question":"What is the main feature of long-term potentiation (LTP)?","options":["Persistent increase in synaptic strength","Decreased synaptic strength","Temporary inhibition","No structural change"],"answer":"A"},{"number":82,"question":"What is the main neurotransmitter involved in LTP?","options":["GABA","Glycine","Glutamate","Dopamine"],"answer":"C"},{"number":83,"question":"A mutation removes AMPA receptors; what happens?","options":["Increased LTP","Enhanced Ca²⁺ influx","Increased depolarization","Decreased synaptic strength"],"answer":"D"},{"number":84,"question":"Which receptor is first activated in LTP?","options":["NMDA","AMPA","GABA","Dopamine"],"answer":"B"},{"number":85,"question":"Why does Ca²⁺ entry increase during LTP?","options":["Na⁺ blocks channels","K⁺ channels open","Mg²⁺ block is removed from NMDA receptors","Cl⁻ influx increases"],"answer":"C"},{"number":86,"question":"How does NMDA receptor activation contribute to LTP?","options":["Blocks Na⁺ entry","Inhibits depolarization","Decreases AMPA receptors","Allows Ca²⁺ influx after Mg²⁺ block removal"],"answer":"D"},{"number":87,"question":"During high-frequency stimulation, what leads to enhanced EPSPs?","options":["Decreased Ca²⁺","Residual Ca²⁺ accumulation","Reduced neurotransmitter release","Increased IPSPs"],"answer":"B"},{"number":88,"question":"What mechanism underlies long-term depression?","options":["Removal of AMPA receptors","Increased NMDA receptors","Increased Ca²⁺ influx","Enhanced glutamate release"],"answer":"A"},{"number":89,"question":"What enzyme is activated in LTP due to increased Ca²⁺?","options":["Calcineurin","Protein kinase A","Calmodulin kinase II","ATPase"],"answer":"C"},{"number":90,"question":"What is long-term depression (LTD)?","options":["Increased synaptic strength","No change in transmission","Temporary excitation","Persistent decrease in synaptic strength"],"answer":"D"},{"number":91,"question":"Which enzyme mediates LTD?","options":["Calmodulin kinase II","ATP synthase","Adenylate cyclase","Calcineurin phosphatase"],"answer":"D"},{"number":92,"question":"Why does LTD reduce synaptic response?","options":["Adds AMPA receptors","Removes AMPA receptors","Increases Ca²⁺ influx","Opens Na⁺ channels"],"answer":"B"},{"number":93,"question":"A patient hyperventilates and develops convulsions. What is the cause?","options":["Acidosis","Increased ionized Ca²⁺","Alkalosis increasing neuronal excitability","Hypoglycemia"],"answer":"C"},{"number":94,"question":"A patient with botulism presents with flaccid paralysis. What is the mechanism?","options":["Block of acetylcholine release at NMJ","Increased inhibitory NT release","Increased Ca²⁺ influx","Enhanced EPSPs"],"answer":"A"},{"number":95,"question":"Which neurotransmitter is inhibitory in the CNS?","options":["Glutamate","GABA","Aspartate","Dopamine"],"answer":"B"},{"number":96,"question":"What is the function of sensory receptors?","options":["Hormone secretion","Detect stimuli and inform CNS","Store neurotransmitters","Generate reflexes"],"answer":"B"},{"number":97,"question":"What is a receptive field?","options":["Area of synaptic cleft","Region supplying blood","Area containing receptor endings of one neuron","Axonal projection area"],"answer":"C"},{"number":98,"question":"What is the first step in signal transduction?","options":["Action potential generation","Synaptic integration","Neurotransmitter release","Receptor stimulation"],"answer":"D"},{"number":99,"question":"What ionic event generates receptor potential?","options":["K⁺ efflux","Cl⁻ influx","Na⁺ efflux","Na⁺ or Ca²⁺ influx"],"answer":"D"},{"number":100,"question":"A stimulus opens more ion channels in receptor; what happens?","options":["Smaller RP","Larger RP","No change","Hyperpolarization"],"answer":"B"},{"number":101,"question":"Why is receptor potential graded?","options":["Depends on stimulus intensity","Follows all-or-none law","Requires threshold","Is propagated"],"answer":"A"},{"number":102,"question":"Where is the action potential generating zone located in myelinated sensory nerve?","options":["Synaptic cleft","Soma","First node of Ranvier","Dendrites"],"answer":"C"},{"number":103,"question":"What happens when a receptor potential reaches threshold at the first node of Ranvier?","options":["Hyperpolarization","Action potential generation","Inhibition","Adaptation"],"answer":"B"},{"number":104,"question":"Why does the receptor potential do not propagate?","options":["No ion channels","Lack of Ca²⁺","High threshold","Passive local current flow"],"answer":"D"},{"number":105,"question":"Why are receptor potentials capable of summation?","options":["They obey all-or-none law","They have refractory periods","They have no refractory period","They depend on Na⁺ channels only"],"answer":"C"},{"number":106,"question":"What determines frequency of action potentials in sensory nerves?","options":["Strength of receptor potential","Length of axon","Myelin thickness","Synaptic delay"],"answer":"A"},{"number":107,"question":"How does increasing stimulus intensity enhance sensory perception?","options":["Decreases receptor potential","Reduces number of active receptors","Increases frequency of action potentials and recruitment","Shortens receptor potential duration"],"answer":"C"},{"number":108,"question":"What is adaptation in sensory receptors?","options":["Increased response over time","Loss of receptors","Continuous depolarization","Decreased response to constant stimulus"],"answer":"D"},{"number":109,"question":"What happens when Na⁺ channels in receptor become inactivated?","options":["Increased RP","Adaptation occurs","Increased AP frequency","Enhanced summation"],"answer":"B"},{"number":110,"question":"How does a rapidly adapting receptor respond to continuous stimulus?","options":["Sustained firing","No response","Gradual increase in firing","Initial and final bursts of activity"],"answer":"D"},{"number":111,"question":"Why do rapidly adapting receptors respond mainly at stimulus onset and offset?","options":["Continuous depolarization","Immediate fatigue","Sensitivity to change in stimulus","Lack of ion channels"],"answer":"C"},{"number":112,"question":"Which receptor type continues firing during sustained stimulus?","options":["Phasic receptors","Tonic receptors","Mechanoreceptors only","Chemoreceptors only"],"answer":"B"}];
+var $=function(id){return document.getElementById(id);};
+var LETTERS=['A','B','C','D','E','F'];
+var index=0,responses=Array(QUESTIONS.length).fill(null),reviewMode=false,reviewIndices=[];
+function showQuiz(){
+  $('summary').hidden=true; $('quizWrap').hidden=false; $('keyNote').hidden=false;
+  render(); window.scrollTo(0,0);
+}
+function currentList(){ return reviewMode ? reviewIndices : QUESTIONS.map(function(_,i){return i;}); }
+function currentRealIndex(){ return currentList()[index]; }
+
+function stats(){
+  var answered=0, correct=0;
+  responses.forEach(function(v,i){ if(v!==null){ answered++; if(v===QUESTIONS[i].answer) correct++; } });
+  $('answeredCount').textContent = answered + ' answered';
+  $('correctStat').textContent = correct;
+  $('wrongStat').textContent = answered-correct;
+  $('unansweredStat').textContent = QUESTIONS.length-answered;
+  $('progress').style.width = (answered/QUESTIONS.length*100) + '%';
+  $('topCount').textContent = reviewMode ? 'Review · ' + reviewIndices.length : QUESTIONS.length + ' questions';
+}
+
+function render(){
+  var list=currentList();
+  if(index>=list.length){ showSummary(); return; }
+  var real=currentRealIndex(), q=QUESTIONS[real], selected=responses[real];
+  $('quizWrap').hidden=false; $('summary').hidden=true;
+  $('qNumber').textContent = reviewMode
+    ? 'Review ' + (index+1) + ' of ' + list.length + ' · Original Q' + q.number
+    : 'Question ' + (index+1) + ' of ' + QUESTIONS.length + ' · Q' + q.number;
+  $('question').textContent = q.question;
+  var box=$('options'); box.innerHTML='';
+  q.options.forEach(function(option,i){
+    var btn=document.createElement('button');
+    btn.className='option'; btn.type='button';
+    var letter=document.createElement('span'); letter.className='letter'; letter.textContent=LETTERS[i];
+    var text=document.createElement('span'); text.textContent=option;
+    btn.append(letter,text);
+    if(selected!==null){
+      btn.disabled=true;
+      if(LETTERS[i]===q.answer) btn.classList.add('correct');
+      if(LETTERS[i]===selected && selected!==q.answer) btn.classList.add('wrong');
+    } else btn.addEventListener('click',function(){ choose(LETTERS[i]); });
+    box.appendChild(btn);
+  });
+  var fb=$('feedback'); fb.className=''; fb.innerHTML='';
+  if(selected!==null){
+    var ok = selected===q.answer;
+    fb.hidden=false; fb.className = ok?'good':'bad';
+    var title=document.createElement('div'); title.className='feedback-title'; title.textContent = ok?'Correct!':'Not quite.';
+    var detail=document.createElement('div'); detail.className='feedback-detail';
+    detail.textContent = (ok?'Answer: ':'Correct answer: ') + q.answer + ' — ' + q.options[LETTERS.indexOf(q.answer)];
+    fb.append(title,detail);
+  } else fb.hidden=true;
+  var last = index===list.length-1;
+  $('prevBtn').disabled = index===0;
+  $('skipBtn').hidden = last; $('nextBtn').hidden = last; $('finishBtn').hidden = !last;
+  stats();
+}
+
+function choose(letter){
+  var real=currentRealIndex();
+  if(responses[real]!==null) return;
+  if(LETTERS.indexOf(letter) >= QUESTIONS[real].options.length) return;
+  responses[real]=letter; render();
+}
+
+function showSummary(){
+  $('quizWrap').hidden=true; $('summary').hidden=false;
+  var answered=0, correct=0, missed=[];
+  responses.forEach(function(v,i){
+    if(v!==null){ answered++; if(v===QUESTIONS[i].answer) correct++; else missed.push(i); }
+  });
+  var wrong=answered-correct;
+  $('scoreValue').textContent = answered ? Math.round(correct/answered*100)+'%' : '—';
+  $('finalCorrect').textContent = correct;
+  $('finalWrong').textContent = wrong;
+  $('reviewWrongBtn').disabled = wrong===0;
+  var rl=$('reviewList'); rl.innerHTML='';
+  if(wrong===0){ rl.textContent = answered ? 'No incorrect answers. Nice work.' : 'No answers yet.'; return; }
+  missed.forEach(function(i){
+    var q=QUESTIONS[i], r=responses[i];
+    var item=document.createElement('div'); item.className='review-item';
+    var t=document.createElement('div'); t.className='q'; t.textContent='Q'+q.number+'. '+q.question;
+    var y=document.createElement('div'); y.className='yours'; y.textContent='Your answer: '+r+' — '+q.options[LETTERS.indexOf(r)];
+    var c=document.createElement('div'); c.className='right'; c.textContent='Correct: '+q.answer+' — '+q.options[LETTERS.indexOf(q.answer)];
+    item.append(t,y,c); rl.appendChild(item);
+  });
+}
+
+function next(){ if(index<currentList().length-1){ index++; render(); } else showSummary(); }
+function previous(){ if(index>0){ index--; render(); } }
+function restart(){ index=0; responses=Array(QUESTIONS.length).fill(null); reviewMode=false; reviewIndices=[]; showQuiz(); }
+
+$('prevBtn').addEventListener('click',previous);
+$('skipBtn').addEventListener('click',next);
+$('nextBtn').addEventListener('click',next);
+$('finishBtn').addEventListener('click',showSummary);
+$('restartBtn').addEventListener('click',restart);
+$('backBtn').addEventListener('click',function(){ index=Math.min(index,currentList().length-1); showQuiz(); });
+$('reviewWrongBtn').addEventListener('click',function(){
+  reviewIndices = QUESTIONS.map(function(q,i){ return responses[i]!==null && responses[i]!==q.answer ? i : -1; }).filter(function(i){ return i>=0; });
+  if(!reviewIndices.length) return;
+  reviewMode=true; index=0; showQuiz();
+});
+
+document.addEventListener('keydown',function(e){
+  if($('quizWrap').hidden) return;
+  var tag=(e.target&&e.target.tagName)||'';
+  if(tag==='TEXTAREA'||tag==='INPUT'||e.ctrlKey||e.metaKey||e.altKey) return;
+  var key=e.key.toUpperCase();
+  if(['A','B','C','D','E','F'].indexOf(key)>-1) choose(key);
+  else if(['1','2','3','4','5','6'].indexOf(key)>-1) choose(LETTERS[Number(key)-1]);
+  else if(e.key==='ArrowRight') next();
+  else if(e.key==='ArrowLeft') previous();
+});
+
+showQuiz();
+</script>
+
+</body></html>
